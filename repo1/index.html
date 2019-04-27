@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+	</head>
+	<body>
+		<script src="js/three.min.js"></script>
+		<script>
+			//场景
+			var scene = new THREE.Scene();
+			//相机
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+			//渲染器
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			//创建元素-立方体
+			var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+			var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+			var cube = new THREE.Mesh( geometry, material );
+			scene.add( cube );//将创建的元素加入常见中
+
+			//创建元素-线条
+			var material1 = new THREE.LineBasicMaterial({color:0x0000ff});
+			var geometry1 = new THREE.Geometry();
+			geometry1.vertices.push(new THREE.Vector3( -10, 0, 0) );
+			geometry1.vertices.push(new THREE.Vector3( 0, 10, 0) );
+			geometry1.vertices.push(new THREE.Vector3( 10, 0, 0) );
+			var line = new THREE.Line( geometry1, material1 );
+			scene.add(line)
+
+			var grid1=new THREE.GridHelper(300,300,0xffffff,0x777777)
+			scene.add(grid1)
+			//相机位置
+			camera.position.x = 20;
+			camera.position.y = 30;
+			camera.position.z = 50;
+			//立方体动画
+			var animate = function () {
+				requestAnimationFrame( animate );//调用父函数，实现循环播放
+
+				cube.rotation.x += 0.01;
+				cube.rotation.y += 0.01;
+				line.rotation.x += 0.02;
+				line.rotation.y += 0.02;
+
+				renderer.render( scene, camera );
+			};
+
+
+			renderer.render(scene,camera)
+			//调用立方体动画
+			animate();
+		</script>
+	</body>
+</html>
